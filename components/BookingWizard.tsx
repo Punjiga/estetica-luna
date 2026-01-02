@@ -509,13 +509,35 @@ export const BookingWizard = () => {
     return true;
   };
 
+  const [warningMsg, setWarningMsg] = useState<string | null>(null);
+
   const handleNext = () => {
     if (canAdvance()) {
       setDirection(1);
       setStep((step + 1) as any);
     } else {
       setShake(true);
-      setTimeout(() => setShake(false), 500);
+      setWarningMsg('Completa este paso para continuar');
+      setTimeout(() => { setShake(false); setWarningMsg(null); }, 2000);
+    }
+  };
+
+  const handleStepClick = (s: number) => {
+    if (s === step) return;
+
+    if (s < step) {
+      setDirection(-1);
+      setStep(s as any);
+    } else {
+      // Trying to go forward
+      if (s === step + 1 && canAdvance()) {
+        setDirection(1);
+        setStep(s as any);
+      } else {
+        setShake(true);
+        setWarningMsg('Completa el paso anterior aquí abajo');
+        setTimeout(() => { setShake(false); setWarningMsg(null); }, 2000);
+      }
     }
   };
 
@@ -540,11 +562,15 @@ export const BookingWizard = () => {
           </div>
 
           {[1, 2, 3, 4, 5].map((s) => (
-            <div key={s} className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-500
-                    ${s < step ? 'bg-green-500 text-white' : s === step ? 'bg-accent text-white ring-4 ring-accent/20' : 'bg-gray-200 text-gray-400'}
-                `}>
+            <button
+              key={s}
+              onClick={() => handleStepClick(s)}
+              className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300
+                    ${s < step ? 'bg-green-500 text-white cursor-pointer hover:bg-green-600 hover:scale-110' : s === step ? 'bg-accent text-white ring-4 ring-accent/20 cursor-default scale-110' : 'bg-gray-200 text-gray-400 cursor-pointer hover:bg-gray-300'}
+                `}
+            >
               {s < step ? <Check size={16} /> : s}
-            </div>
+            </button>
           ))}
         </div>
         <h2 className="text-2xl font-serif text-center font-bold text-dark">
@@ -557,7 +583,25 @@ export const BookingWizard = () => {
       </div>
 
       {/* Content */}
-      <div className={`flex-1 p-6 md:p-8 overflow-y-auto ${shake ? 'animate-[shake_0.5s_ease-in-out]' : ''}`}>
+      <div className={`flex-1 p-6 md:p-8 overflow-y-auto relative ${shake ? 'animate-[shake_0.5s_ease-in-out]' : ''}`}>
+
+        {/* Warning Tooltip */}
+        <AnimatePresence>
+          {warningMsg && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-2 left-0 right-0 z-50 flex justify-center pointer-events-none"
+            >
+              <div className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">!</span>
+                {warningMsg}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={step}
@@ -573,6 +617,12 @@ export const BookingWizard = () => {
             {step === 2 && <StepStylists />}
             {step === 3 && <StepDateTime />}
             {step === 4 && <StepDetails />}
+            {step === 5 && (
+              <div className="mb-6 bg-blue-50 border border-blue-100 p-4 rounded-xl flex gap-3 text-blue-800 text-sm">
+                <span className="text-xl">💡</span>
+                <p>Si deseas cambiar algún detalle de tu cita, puedes presionar en los <strong>números de arriba</strong> (1-4) para regresar a ese paso.</p>
+              </div>
+            )}
             {step === 5 && <StepConfirmation />}
           </motion.div>
         </AnimatePresence>

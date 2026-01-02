@@ -116,6 +116,9 @@ export const Services = () => {
 
 // --- Staff Section ---
 export const Staff = () => {
+    const { scrollYProgress } = useScroll();
+    const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
     return (
         <section id="team" className="py-24 bg-white overflow-hidden">
             <div className="container mx-auto px-4">
@@ -133,11 +136,12 @@ export const Staff = () => {
                     {STYLISTS.map((stylist, index) => (
                         <motion.div
                             key={stylist.id}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            style={{ y: index % 2 === 0 ? 0 : y }} // Staggered parallax
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
                             whileHover={{ y: -10 }}
-                            transition={{ duration: 0.5 }}
+                            transition={{ duration: 0.8, delay: index * 0.2 }}
                             className="text-center group"
                         >
                             <div className="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-gray-100 shadow-xl">
@@ -172,6 +176,10 @@ export const Gallery = () => {
                         <motion.div
                             key={idx}
                             style={{ y: idx < 3 ? y1 : y2 }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.8 }}
                             className="relative aspect-square rounded-2xl overflow-hidden cursor-zoom-in group"
                             onClick={() => setLightboxImg(img)}
                         >
@@ -192,17 +200,18 @@ export const Gallery = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
                         onClick={() => setLightboxImg(null)}
                     >
                         <motion.img
-                            initial={{ scale: 0.8 }}
-                            animate={{ scale: 1 }}
-                            exit={{ scale: 0.8 }}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
                             src={lightboxImg}
-                            className="max-w-full max-h-[90vh] rounded-lg shadow-2xl"
+                            className="max-w-full max-h-[90vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
+                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking image
                         />
-                        <button className="absolute top-8 right-8 text-white p-2 rounded-full hover:bg-white/20">
+                        <button className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white transition-colors p-2">
                             <X size={32} />
                         </button>
                     </motion.div>
@@ -249,7 +258,9 @@ export const Testimonials = () => {
                                 <div className="flex justify-center gap-1 text-accent mb-6">
                                     {[...Array(5)].map((_, i) => <Star key={i} size={20} fill="#D4AF37" />)}
                                 </div>
-                                <p className="text-gray-600 mb-8 italic text-xl leading-relaxed relative z-10 font-serif">"{TESTIMONIALS[index].text}"</p>
+                                <div className="min-h-[120px] flex items-center justify-center">
+                                    <p className="text-gray-600 mb-8 italic text-xl leading-relaxed relative z-10 font-serif">"{TESTIMONIALS[index].text}"</p>
+                                </div>
                                 <div className="flex flex-col items-center gap-3">
                                     <img src={TESTIMONIALS[index].image} alt={TESTIMONIALS[index].name} className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md" />
                                     <span className="font-serif font-bold text-dark text-lg">{TESTIMONIALS[index].name}</span>

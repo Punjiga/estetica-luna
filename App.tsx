@@ -26,7 +26,7 @@ const Navbar = () => {
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-4' : 'bg-transparent py-6'}`}>
             <div className="container mx-auto px-4 flex justify-between items-center">
-                <a href="#" className={`font-serif text-2xl font-bold flex items-center gap-2 ${isScrolled ? 'text-dark' : 'text-white'} group`}>
+                <a href="#" className={`font-serif text-2xl font-bold flex items-center gap-2 ${isScrolled ? 'text-dark' : 'text-white'} group relative z-50`}>
                     <img src="/logo.png" alt="Estética Luna" className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110 group-hover:brightness-110" />
                 </a>
 
@@ -52,7 +52,10 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Toggle */}
-                <button className="md:hidden text-white" onClick={() => setIsOpen(true)}>
+                <button
+                    className={`md:hidden relative z-50 transition-colors duration-300 ${isScrolled ? 'text-accent' : 'text-white'}`}
+                    onClick={() => setIsOpen(true)}
+                >
                     <Menu size={28} />
                 </button>
             </div>
@@ -104,7 +107,7 @@ const Footer = () => {
     const [showPolicy, setShowPolicy] = useState(false);
 
     return (
-        <footer className="bg-dark text-white pt-20 pb-10">
+        <footer className="bg-dark text-white pt-20 pb-20">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-gray-700 pb-12">
                     <div>
