@@ -87,7 +87,7 @@ export const Services = () => {
                                         <img src={service.image} alt={service.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
                                     </div>
                                     <div className="p-6 h-2/5 flex flex-col justify-between relative z-10 bg-white">
-                                        <div>
+                                        <div className="transition-transform duration-700 ease-out group-hover:-translate-y-4">
                                             <h3 className="font-serif text-xl font-bold text-dark">{service.name}</h3>
                                             <div className="flex justify-between items-center mt-2 text-sm text-gray-500">
                                                 <span>{service.duration} min</span>
