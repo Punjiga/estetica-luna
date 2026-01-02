@@ -94,13 +94,13 @@ export const Services = () => {
                                                 <span className="font-bold text-accent text-lg">₡{service.price.toLocaleString()}</span>
                                             </div>
                                         </div>
-                                        <div className="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-white via-white to-transparent">
+                                        <div className="absolute inset-x-0 bottom-0 p-6 pt-12 translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out bg-gradient-to-t from-white via-white to-transparent">
                                             <button
                                                 onClick={() => document.getElementById('booking-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                                className="w-full bg-dark text-white py-3 rounded-xl font-medium relative overflow-hidden group transition-all duration-300 hover:shadow-lg"
+                                                className="w-full bg-dark text-white py-3 rounded-xl font-medium relative overflow-hidden group/btn transition-all duration-300 hover:shadow-lg mt-2"
                                             >
-                                                <span className="relative z-10 group-hover:text-white transition-colors">Reservar</span>
-                                                <div className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                                                <span className="relative z-10 group-hover/btn:text-white transition-colors">Reservar</span>
+                                                <div className="absolute inset-0 bg-accent translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out" />
                                             </button>
                                         </div>
                                     </div>
@@ -252,14 +252,14 @@ export const Testimonials = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -100 }}
                                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                                className="bg-secondary p-12 rounded-3xl relative shadow-lg text-center mx-4 md:mx-12"
+                                className="bg-secondary p-12 rounded-3xl relative shadow-lg text-center mx-4 md:mx-12 cursor-default transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:bg-white"
                             >
                                 <Quote className="absolute top-8 left-8 text-accent/20 w-16 h-16" />
                                 <div className="flex justify-center gap-1 text-accent mb-6">
                                     {[...Array(5)].map((_, i) => <Star key={i} size={20} fill="#D4AF37" />)}
                                 </div>
                                 <div className="min-h-[120px] flex items-center justify-center">
-                                    <p className="text-gray-600 mb-8 italic text-xl leading-relaxed relative z-10 font-serif">"{TESTIMONIALS[index].text}"</p>
+                                    <p className="text-gray-600 mb-8 italic text-xl md:text-2xl leading-relaxed relative z-10 font-serif">"{TESTIMONIALS[index].text}"</p>
                                 </div>
                                 <div className="flex flex-col items-center gap-3">
                                     <img src={TESTIMONIALS[index].image} alt={TESTIMONIALS[index].name} className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-md" />
