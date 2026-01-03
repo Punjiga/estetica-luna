@@ -52,9 +52,11 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Toggle */}
+                {/* Mobile Toggle - Fixed positioning for safety on small screens */}
                 <button
-                    className={`md:hidden relative z-50 transition-colors duration-300 ${isScrolled ? 'text-accent' : 'text-white'}`}
+                    className={`md:hidden fixed top-6 right-4 z-50 transition-colors duration-300 ${isScrolled ? 'text-accent' : 'text-white'}`}
                     onClick={() => setIsOpen(true)}
+                    style={{ right: 'max(1rem, env(safe-area-inset-right))' }} // Extra safety for notch phones
                 >
                     <Menu size={28} />
                 </button>
