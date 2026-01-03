@@ -52,11 +52,10 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Toggle */}
-                {/* Mobile Toggle - Fixed positioning for safety on small screens */}
                 <button
-                    className={`md:hidden fixed top-6 right-4 z-50 transition-colors duration-300 ${isScrolled ? 'text-accent' : 'text-white'}`}
+                    className={`md:hidden fixed right-4 z-50 transition-all duration-300 ${isScrolled ? 'text-accent top-[34px]' : 'text-white top-[42px]'}`}
                     onClick={() => setIsOpen(true)}
-                    style={{ right: 'max(1rem, env(safe-area-inset-right))' }} // Extra safety for notch phones
+                    style={{ right: 'max(1rem, env(safe-area-inset-right))' }}
                 >
                     <Menu size={28} />
                 </button>
@@ -204,7 +203,7 @@ const Footer = () => {
 const App = () => {
     return (
         <BookingProvider>
-            <div className="font-sans text-dark bg-white selection:bg-accent selection:text-white">
+            <div className="font-sans text-dark bg-white selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
                 <Navbar />
 
                 <main>
